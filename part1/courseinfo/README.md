@@ -8,6 +8,9 @@
 ## Exercise 1.2
 [Commit Link](https://github.com/aprestoes/fullstackopen-submissions/commit/2953351982f8f2bb3393007ef887615c516ce8b5)
 
+## Exercise 1.3
+[Commit Link](https://github.com/aprestoes/fullstackopen-submissions/commit/6d3b64380b29c8784d58777271a21eafeac4afbf)
+
 ## Usage
 Change into project directory.
 ```bash
