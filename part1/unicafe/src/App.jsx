@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 const Display = ({ counter, text }) => {
-  console.log(counter);
   return (
     <div>
       <p><b>{text}</b> {counter}</p>
@@ -11,17 +10,21 @@ const Display = ({ counter, text }) => {
 };
 
 const Statistics = (props) => {
-  return (
-    <div>
-      <h1>Statistics</h1>
-      <Display counter={props.stats.good} text="Good: " />
-      <Display counter={props.stats.neutral} text="Neutral: " />
-      <Display counter={props.stats.bad} text="Bad: " />
-      <Display counter={props.stats.total} text="All: " />
-      <Display counter={parseFloat(props.stats.score / props.stats.total)} text="Average: " />
-      <Display counter={parseFloat(props.stats.good / props.stats.total)} text="Positive: " />
-    </div>
+  if (!props.stats.total) {
+    return <p>No feedback given</p>
+  } else {
+    return (
+      <div>
+        <h1>Statistics</h1>
+        <Display counter={props.stats.good} text="Good: " />
+        <Display counter={props.stats.neutral} text="Neutral: " />
+        <Display counter={props.stats.bad} text="Bad: " />
+        <Display counter={props.stats.total} text="All: " />
+        <Display counter={parseFloat(props.stats.score / props.stats.total)} text="Average: " />
+        <Display counter={parseFloat(props.stats.good / props.stats.total)} text="Positive: " />
+      </div>
   );
+  }
 }
 
 const App = () => {
@@ -34,9 +37,6 @@ const App = () => {
     //Neutral score is 0, good is +1, bad is -1
 
   const stats = {good: good, neutral: neutral, bad: bad, total: total, score: score};
-
-  console.log("Total: ", total);
-  console.log("Score: ", score);
 
   const handleGood = () => {
     const updatedGood = good + 1;
