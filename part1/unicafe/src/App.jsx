@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 const Display = ({ counter, text }) => {
+  console.log(counter);
   return (
     <div>
       <p><b>{text}</b> {counter}</p>
@@ -9,32 +10,47 @@ const Display = ({ counter, text }) => {
   );
 };
 
+const Statistics = (props) => {
+  return (
+    <div>
+      <h1>Statistics</h1>
+      <Display counter={props.stats.good} text="Good: " />
+      <Display counter={props.stats.neutral} text="Neutral: " />
+      <Display counter={props.stats.bad} text="Bad: " />
+      <Display counter={props.stats.total} text="All: " />
+      <Display counter={parseFloat(props.stats.score / props.stats.total)} text="Average: " />
+      <Display counter={parseFloat(props.stats.good / props.stats.total)} text="Positive: " />
+    </div>
+  );
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [score, setScore] = useState(0);
+  const total = good + neutral + bad;
+  const score = good - bad; 
+    //Neutral score is 0, good is +1, bad is -1
+
+  const stats = {good: good, neutral: neutral, bad: bad, total: total, score: score};
+
+  console.log("Total: ", total);
+  console.log("Score: ", score);
 
   const handleGood = () => {
-    setScore(score + 1);
     const updatedGood = good + 1;
     setGood(updatedGood);
-    setTotal(updatedGood + neutral + bad);
   };
 
   const handleNeutral = () => {
     const updatedNeutral = neutral + 1;
     setNeutral(updatedNeutral);
-    setTotal(updatedNeutral + good + bad);
   };
 
   const handleBad = () => {
-    setScore(score - 1);
     const updatedBad = bad + 1;
     setBad(updatedBad);
-    setTotal(updatedBad + neutral + good);
   }
 
   return (
@@ -44,14 +60,7 @@ const App = () => {
       <Button onClick={handleNeutral} text="Neutral" />
       <Button onClick={handleBad} text="Bad" />
 
-      <h1>Statistics</h1>
-      <Display counter={good} text="Good: " />
-      <Display counter={neutral} text="Neutral: " />
-      <Display counter={bad} text="Bad: " />
-      <Display counter={total} text="All: " />
-      <Display counter={parseFloat(score / total)} text="Average: " />
-      <Display counter={parseFloat(good / total)} text="Positive: " />
-
+      <Statistics stats={stats} />
     </div>
   )
 }
