@@ -5,9 +5,14 @@ const getRandomIndex = (maxIndex) => {
   return Math.floor(Math.random() * (maxIndex + 1));
 }
 
-const NextButton = () => {
-
-};
+const Anecdote = ({ text, votes }) => {
+  return (
+    <div>
+      <p>{text}</p>
+      <p>has {votes} votes</p>      
+    </div>
+  );
+}
 
 const App = () => {
   const anecdotes = [
@@ -22,12 +27,23 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [voteArray, setVoteArray] = useState(Array(anecdotes.length).fill(0));
+
+  const handleNextAnecdote = () => {
+    setSelected(getRandomIndex(anecdotes.length - 1));
+  }
+
+  const handleVote = () => {
+    const voteArrayCopy = {...voteArray};
+    voteArrayCopy[selected] += 1;
+    setVoteArray(voteArrayCopy);
+  };
 
   return (
     <div>
-      {anecdotes[selected]}
-      <br />
-      <button onClick={() => {setSelected(getRandomIndex(anecdotes.length - 1))}}>Next Anecdote</button>
+      <Anecdote text={anecdotes[selected]} votes={voteArray[selected]} />
+      <button onClick={handleVote}>Vote</button>
+      <button onClick={handleNextAnecdote}>Next Anecdote</button>
     </div>
   )
 };
