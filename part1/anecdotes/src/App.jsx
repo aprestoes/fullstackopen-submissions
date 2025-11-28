@@ -14,6 +14,16 @@ const Anecdote = ({ text, votes }) => {
   );
 }
 
+const MostPopularAnecdote = ({ anecdotes, voteArray }) => {
+  const highestValue = Math.max(...voteArray);
+  if (highestValue === 0) {
+    return <p>No votes have been cast yet</p>;
+  } else {
+    const highestElemIndex = voteArray.indexOf(highestValue);
+    return <Anecdote text={anecdotes[highestElemIndex]} votes={highestValue} />
+  }
+};
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -34,16 +44,20 @@ const App = () => {
   }
 
   const handleVote = () => {
-    const voteArrayCopy = {...voteArray};
+    const voteArrayCopy = [...voteArray];
     voteArrayCopy[selected] += 1;
     setVoteArray(voteArrayCopy);
   };
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <Anecdote text={anecdotes[selected]} votes={voteArray[selected]} />
       <button onClick={handleVote}>Vote</button>
       <button onClick={handleNextAnecdote}>Next Anecdote</button>
+
+      <h2>Anecdote with most votes</h2>
+      <MostPopularAnecdote anecdotes={anecdotes} voteArray={voteArray} />
     </div>
   )
 };
